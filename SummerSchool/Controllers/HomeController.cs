@@ -3,33 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SummerSchool.Models;
+
+
+using System.Web.Security;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.IO;
+using System.Net;
 
 namespace SummerSchool.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
-
         public ViewResult Index()
         {
-            int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afternoon";
+            String URL = "http://vk.com/gingercat_che";
+            HttpWebRequest objWebRequest;
+            HttpWebResponse objWebResponse;
+            StreamReader streamReader;
+            //String strHTML;
+            objWebRequest = (HttpWebRequest)WebRequest.Create(URL);
+            objWebRequest.Method = "GET";
+            objWebResponse = (HttpWebResponse)objWebRequest.GetResponse();
+            streamReader = new StreamReader(objWebResponse.GetResponseStream());
+            //strHTML = streamReader.ReadToEnd();
+            ViewBag.Page = streamReader.ReadToEnd();
+            //txtResponse.Text = strHTML;
+            streamReader.Close();
+            objWebResponse.Close();
+            objWebRequest.Abort();
             return View();
-        }
-
-        [HttpGet]
-        public ViewResult RSVPForm()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ViewResult RSVPForm(GuestResponce guestResponce)
-        {
-            //TODO: Email responce to party organizer
-            return View("Thanks", guestResponce);
         }
     }
 }
