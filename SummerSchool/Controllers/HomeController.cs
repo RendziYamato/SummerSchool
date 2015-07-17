@@ -18,21 +18,21 @@ namespace SummerSchool.Controllers
     {
         public ViewResult Index()
         {
-            String URL = "http://vk.com/gingercat_che";
-            HttpWebRequest objWebRequest;
-            HttpWebResponse objWebResponse;
+            String siteURL = "http://vk.com/gingercat_che";
+
+            HttpWebRequest myWebRequest;
+            HttpWebResponse myWebResponse;
             StreamReader streamReader;
-            //String strHTML;
-            objWebRequest = (HttpWebRequest)WebRequest.Create(URL);
-            objWebRequest.Method = "GET";
-            objWebResponse = (HttpWebResponse)objWebRequest.GetResponse();
-            streamReader = new StreamReader(objWebResponse.GetResponseStream());
-            //strHTML = streamReader.ReadToEnd();
-            ViewBag.Page = streamReader.ReadToEnd();
-            //txtResponse.Text = strHTML;
+            
+            myWebRequest = (HttpWebRequest)WebRequest.Create(siteURL);
+            myWebResponse = (HttpWebResponse)myWebRequest.GetResponse();
+            streamReader = new StreamReader(myWebResponse.GetResponseStream());
+
+            ViewBag.RecievedPage = streamReader.ReadToEnd();
+            
             streamReader.Close();
-            objWebResponse.Close();
-            objWebRequest.Abort();
+            myWebResponse.Close();
+            myWebRequest.Abort();
             return View();
         }
     }
