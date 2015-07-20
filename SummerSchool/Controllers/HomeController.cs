@@ -16,23 +16,20 @@ namespace SummerSchool.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         public ViewResult Index()
         {
-            String siteURL = "http://vk.com/gingercat_che";
+            int groupID = 21247247;
+            string URL = "";
 
-            HttpWebRequest myWebRequest;
-            HttpWebResponse myWebResponse;
-            StreamReader streamReader;
-            
-            myWebRequest = (HttpWebRequest)WebRequest.Create(siteURL);
-            myWebResponse = (HttpWebResponse)myWebRequest.GetResponse();
-            streamReader = new StreamReader(myWebResponse.GetResponseStream());
+            int myApplicationID = 5002040;
+            int scope = 1;
+            string display = "popup";
+            string redirectURI = "https://oauth.vk.com/blank.html";
 
-            ViewBag.RecievedPage = streamReader.ReadToEnd();
-            
-            streamReader.Close();
-            myWebResponse.Close();
-            myWebRequest.Abort();
+            string AuthorizationAddress = string.Format("https://oauth.vk.com/authorize?client_id={0}&redirect_uri={1}&scope={2}&display={3}&responce_type={4}&v={5}", myApplicationID, redirectURI, scope, display, "token", 5.34);
+
+            Response.Redirect(AuthorizationAddress);
             return View();
         }
     }
